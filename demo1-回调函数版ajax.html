@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+   
+</head>
+<body>
+    <button class="btn">加载数据</button>
+    <div class="result">
+        <!-- <ul>
+            <li>
+                <p>商品名：ipad2</p>
+                <p>价格</p>
+            </li>
+        </ul> -->
+    </div>
+</body>
+<!-- <script src="./ajax.js"></script> -->
+<script>
+
+function ajax(options) {
+    console.log('options:',options)
+   
+   //原生创建ajax
+   var xhr=null;
+   if(window.XMLHttpRequest) {
+        xhr=new XMLHttpRequest();
+   }else {
+      xhr=new ActiveXObject("Microsoft.XMLHTTP");
+   }
+
+   console.log(xhr);
+
+   xhr.open(options.type,options.url,true);
+   xhr.send();
+
+   xhr.onreadystatechange=function() {
+
+     //  console.log('readyState:',xhr.readyState);
+     //  console.log('status:',xhr.status);
+
+       if(xhr.readyState===4) {
+
+          if(xhr.status===200) {
+              var jsonObj=JSON.parse( xhr.responseText);
+              console.log(jsonObj);
+
+              options.success && options.success(jsonObj)
+
+            
+          }
+
+       }
+    
+
+
+   }
+
+
+}
+
+//getData()
+//获取btn,和result
+var btn=document.querySelector('.btn');
+var result=document.querySelector('.result');
+
+//dom0绑定事件
+// btn.onclick=function() {
+//     console.log('我是按钮')
+// }
+
+
+//dom2级绑定事件写法 
+//dom元素.addEventListener('事件类型','回调函数','是否冒泡');
+ btn.addEventListener('click',clickFn,false);
+
+
+function clickFn() {
+
+    //getData()
+    ajax({
+        url:"./data.json",
+        type:'get',
+        success:function(res) {
+            console.log('哈哈数据来啦！',res)
+
+                        
+
+            //得到数据后，将数据渲染到页面的工作 
+            var ohtml="<ul>"
+            
+            if(res.code===200) {
+            
+                var resultArray=res.info;
+            
+                resultArray.forEach(function(item,index) {
+            
+                      // console.log(item.name);
+                      ohtml+=` <li>
+                                  <p>商品名：${item.name}</p>
+                                  <p>价格:${item.price}</p>
+                              </li>`
+                });
+            
+            
+            
+            
+            }
+            
+            ohtml+="</ul>"
+            console.log(ohtml);
+            
+            document.querySelector('.result').innerHTML=ohtml;
+        }
+    });
+
+  
+}
+
+
+
+</script>
+</html>

@@ -1,0 +1,10 @@
+{
+    "code":200,
+    "statusTxt":"数据请求成功",
+    "info":[
+        {"id":"1001","name":"ipad2","price":2300},
+        {"id":"1002","name":"ipad3","price":2300},
+        {"id":"1003","name":"ipad4","price":2300},
+        {"id":"1004","name":"ipad5","price":2300}
+    ]
+}
